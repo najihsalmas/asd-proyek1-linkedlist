@@ -123,26 +123,81 @@ public class DoublyLinkedList implements LinkedList{
     @Override
     public Object get(int index) {
         // TODO digunakan untuk mengembalikan data pada index ke-i dimulai dari head. Head memiliki index 0
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        Node2P temp;
+        if (index < size / 2) {
+            temp = head;
+            for (int i = 0; i < index; i++) {
+                temp = temp.next;
+            }
+        } else {
+            temp = tail;
+            for (int i = size - 1; i > index; i--) {
+                temp = temp.prev;
+            }
+        }
+        return temp.data;
     }
     @Override
     public int indexOf(Object targetData) {
         // TODO digunakan mencari kemunculan pertama targetData pada linked list dan mengembalikan indeksnya. Indeks dari head adalah 0. Jika tidak ada targetData pada linked list, kembalikan nilai -1 
-        return 0;
+        Node2P temp = head;
+        int index = 0;
+        while (temp != null) {
+            if (java.util.Objects.equals(temp.data, targetData)) {
+                return index;
+            }
+            temp = temp.next;
+            index++;
+        }
+        return -1;
     }
     @Override
     public void printReverse() {
         // TODO digunakan untuk mencetak data pada linked list dengan urutan terbalik, dari tail ke head.
-        
+        Node2P temp = tail;
+        while (temp != null) {
+            System.out.println(temp.data);
+            temp = temp.prev;
+        }
     }
     @Override
     public boolean remove(Object targetData) {
         // TODO digunakan untuk mencari dan menghapus node dengan data=targetData pada linked list serta mengembalikan nilai True jika berhasil, dan False jika targetData tidak ada di linkedList
-        return false;
+        Node2P temp = head;
+        while (temp != null && !java.util.Objects.equals(temp.data, targetData)) {
+            temp = temp.next;
+        }
+        if (temp == null) {
+            return false; 
+        }
+ 
+        if (temp == head && temp == tail) {      
+            head = tail = null;
+        } else if (temp == head) {               
+            head = head.next;
+            head.prev = null;
+        } else if (temp == tail) {               
+            tail = tail.prev;
+            tail.next = null;
+        } else {                                 
+            temp.prev.next = temp.next;
+            temp.next.prev = temp.prev;
+        }
+        size--;
+        return true;
     }
     @Override
     public Object[] toArray() {
         // TODO digunakan untuk mendapatkan keseluruhan data pada node-node di linked list dalam bentuk array. Data-data pada array disusun secara urut mulai dari head sampai dengan tail.
-        return null;
+        Object[] result = new Object[size];
+        Node2P temp = head;
+        for (int i = 0; i < size; i++) {
+            result[i] = temp.data;
+            temp = temp.next;
+        }
+        return result;
     }
 }
