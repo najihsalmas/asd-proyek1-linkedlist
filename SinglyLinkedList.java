@@ -193,5 +193,6 @@ public class SinglyLinkedList implements LinkedList{
             result[i] = currentNode.data;
             currentNode = currentNode.pointer;
         }
-        return null;
+        return result;
+    }
 }
