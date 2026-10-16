@@ -156,43 +156,42 @@ public class SinglyLinkedList implements LinkedList{
     @Override
     public boolean remove(Object targetData) {
         // TODO digunakan untuk mencari dan menghapus node dengan data=targetData pada linked list serta mengembalikan nilai True jika berhasil, dan False jika targetData tidak ada di linkedList
-        if (head == null){
-        return false;
+       if (isEmpty()) {
+            return false;
         }
-        if (java.util.Objects.equals(head.data, targetData)){
-            head = head.pointer;
-            size--;
-            if (head == null){
-                tail = null;
-            }
+        
+        if (java.util.Objects.equals(head.data, targetData)) {
+            deleteFirst();
             return true;
         }
-        Node current = head;
-        while (current.pointer != null){
-            if (java.util.Objects.equals(current.pointer.data, targetData)){
-                if (current.pointer == tail){
-                    tail = current;
+
+        Node prev = head;
+        Node curr = head.pointer;
+        
+        while (curr != null) {
+            if (java.util.Objects.equals(curr.data, targetData)) {
+                prev.pointer = curr.pointer;
+                if (curr == tail) {
+                    tail = prev;
                 }
-                current.pointer = current.pointer.pointer;
                 size--;
                 return true;
             }
-            current = current.pointer;
+            prev = curr;
+            curr = curr.pointer;
         }
-        return false;
+        return false; 
     }
     
     @Override
     public Object[] toArray() {
         // TODO digunakan untuk mendapatkan keseluruhan data pada node-node di linked list dalam bentuk array. Data-data pada array disusun secara urut mulai dari head sampai dengan tail.
-        Object[] array = new Object[size];
-        Node current = head;
-        int index = 0;
-
-        while (current != null){
-            array[index++] = current.data;
-            current = current.pointer;
+       Object[] result = new Object[size];
+        Node currentNode = head;
+        
+        for (int i = 0; i < size; i++) {
+            result[i] = currentNode.data;
+            currentNode = currentNode.pointer;
         }
         return null;
-    }
 }
